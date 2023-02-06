@@ -13,7 +13,7 @@ export type PropsType = {
     tasks: Array<TaskType>
     removeTask: (taskId: number, myTitle: string) => void
 }
-<div></div>
+
 
 
 export function Todolist(props: PropsType) {
