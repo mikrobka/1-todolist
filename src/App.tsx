@@ -28,6 +28,7 @@ function App() {
                 tasks={tasks1}
                 removeTask={removeTask}
             />
+            <Todolist />
 
 
         </div>
