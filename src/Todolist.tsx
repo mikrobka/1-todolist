@@ -1,100 +1,97 @@
-import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
-import {FilterValuesType, TasksType} from './App';
-import {SuperButton} from "./components/SuperButton";
-import {Buffer} from "buffer";
+import React, {ChangeEvent, useCallback} from 'react';
+import {FilterValuesType} from './App';
+import {AddItemForm} from './AddItemForm';
+import {EditableSpan} from './EditableSpan';
+import {Button, Checkbox, IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
 
 
-// export type TaskType = {
-//     id: string
-//     title: string
-//     isDone: boolean
-// }
+export type TaskType = {
+    id: string
+    title: string
+    isDone: boolean
+}
 
 type PropsType = {
-    id: number
+    id: string
     title: string
-    tasks: Array<TasksType>
-    students: Array<string>
-    removeTask: (taskId: string, todolistId: number) => void
-    changeFilter: (value: FilterValuesType, todolistId: number) => void
-    addTask: (title: string, todolistId: number) => void
-    changeTaskStatus: (id: string, isDone: boolean, todolistId: number) => void
-    removeTodolist: (id: number) => void
+    tasks: Array<TaskType>
+    removeTask: (taskId: string, todolistId: string) => void
+    changeFilter: (value: FilterValuesType, todolistId: string) => void
+    addTask: (title: string, todolistId: string) => void
+    changeTaskStatus: (id: string, isDone: boolean, todolistId: string) => void
+    removeTodolist: (id: string) => void
+    changeTodolistTitle: (id: string, newTitle: string) => void
     filter: FilterValuesType
+    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
 }
 
 export function Todolist(props: PropsType) {
-    let [title, setTitle] = useState("")
-    let [error, setError] = useState<string | null>(null)
+    const addTask = useCallback((title: string) => {
+        props.addTask(title, props.id);
+    }, [props.addTask,props.id])
 
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
+    const removeTodolist = () => {
+        props.removeTodolist(props.id);
     }
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null);
-        if (e.charCode === 13) {
-            // addTask();
-        }
+    const changeTodolistTitle = (title: string) => {
+        props.changeTodolistTitle(props.id, title);
     }
 
-    const removeTodolistHandler = () => {
-        props.removeTodolist(props.id)
-    }
-    const addTaskHandler = () => {
-        props.addTask(props.title,props.id)
-        setTitle('')
-    }
-
-    const tsarChangFilterHandler = (value:FilterValuesType) => {
-        props.changeFilter(value,props.id)
-    }
-
+    const onAllClickHandler = () => props.changeFilter("all", props.id);
+    const onActiveClickHandler = () => props.changeFilter("active", props.id);
+    const onCompletedClickHandler = () => props.changeFilter("completed", props.id);
 
     return <div>
-        <h3> {props.title}
-            <SuperButton callback={removeTodolistHandler} name={'x'}/>
+        <h3><EditableSpan value={props.title} onChange={changeTodolistTitle}/>
+            <IconButton onClick={removeTodolist}>
+                <Delete/>
+            </IconButton>
         </h3>
+        <AddItemForm addItem={addTask}/>
         <div>
-            <input value={title}
-                   onChange={onChangeHandler}
-                   onKeyPress={onKeyPressHandler}
-                   className={error ? "error" : ""}
-            />
-            <SuperButton callback={addTaskHandler} name={'+'}/>
-            {error && <div className="error-message">{error}</div>}
-        </div>
-        <ul>
             {
                 props.tasks.map(t => {
+                    const onClickHandler = () => props.removeTask(t.id, props.id)
                     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
                         let newIsDoneValue = e.currentTarget.checked;
-                        props.changeTaskStatus(t.taskId, newIsDoneValue, props.id);
+                        props.changeTaskStatus(t.id, newIsDoneValue, props.id);
                     }
-                    const removeTaskHandler = () =>{
-                        props.removeTask(t.taskId,props.id)
+                    const onTitleChangeHandler = (newValue: string) => {
+                        props.changeTaskTitle(t.id, newValue, props.id);
                     }
 
-                    return <li key={t.taskId} className={t.isDone ? "is-done" : ""}>
-                        <input type="checkbox" onChange={onChangeHandler} checked={t.isDone}/>
-                        <span>{t.title}</span>
-                        <SuperButton callback={removeTaskHandler} name={'x'}/>
-                    </li>
+
+                    return <div key={t.id} className={t.isDone ? "is-done" : ""}>
+                        <Checkbox
+                            checked={t.isDone}
+                            color="primary"
+                            onChange={onChangeHandler}
+                        />
+
+                        <EditableSpan value={t.title} onChange={onTitleChangeHandler}/>
+                        <IconButton onClick={onClickHandler}>
+                            <Delete/>
+                        </IconButton>
+                    </div>
                 })
             }
-        </ul>
-        <div>
-            <SuperButton callback={() =>tsarChangFilterHandler('all')} name={'All'}/>
-            <SuperButton callback={()=>tsarChangFilterHandler('active')} name={'Active'}/>
-            <SuperButton callback={()=>tsarChangFilterHandler('completed')} name={'Completed'}/>
         </div>
-        <p></p>
-        {
-            props.students.map((el) => {
-                return (
-                    <div>{el}</div>
-                )
-            })
-        }
+        <div style={{paddingTop: "10px"}}>
+            <Button variant={props.filter === 'all' ? 'outlined' : 'text'}
+                    onClick={onAllClickHandler}
+                    color={'inherit'}
+            >All
+            </Button>
+            <Button variant={props.filter === 'active' ? 'outlined' : 'text'}
+                    onClick={onActiveClickHandler}
+                    color={'primary'}>Active
+            </Button>
+            <Button variant={props.filter === 'completed' ? 'outlined' : 'text'}
+                    onClick={onCompletedClickHandler}
+                    color={'secondary'}>Completed
+            </Button>
+        </div>
     </div>
 }
 
