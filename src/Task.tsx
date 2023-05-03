@@ -20,7 +20,6 @@ export const Task =memo ((props: TaskPropsType) => {
         let newIsDoneValue = e.currentTarget.checked;
         dispatch(changeTaskStatusAC(props.task.id,newIsDoneValue,props.todolistId))
     }
-
     const onTitleChangeHandler = useCallback ((newValue: string) => {
         dispatch(changeTaskTitleAC(props.task.id,newValue,props.todolistId))
     },[dispatch,props.task.id,props.todolistId])

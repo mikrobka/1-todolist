@@ -14,7 +14,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
-
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistType = {
     id: string
@@ -81,7 +80,7 @@ function AppWithRedux() {
                         <Menu/>
                     </IconButton>
                     <Typography variant="h6">
-                        News
+                        Todolist
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>

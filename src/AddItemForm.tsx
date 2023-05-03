@@ -3,7 +3,7 @@ import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 import {IconButton} from "@mui/material";
 import {AddBox} from "@mui/icons-material";
 
-type AddItemFormPropsType = {
+export type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 

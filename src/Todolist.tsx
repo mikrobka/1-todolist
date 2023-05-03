@@ -55,14 +55,6 @@ export const Todolist = memo((props: PropsType) => {
 
 
 
-    // const removeTask = useCallback((taskId: string) => props.removeTask(taskId, props.id), [props.removeTask, props.id])
-    // const changeTaskStatus = useCallback((taskId: string, newIsDoneValue: boolean) => {
-    //     props.changeTaskStatus(taskId, newIsDoneValue, props.id);
-    // }, [props.changeTaskStatus, props.id])
-    // const changeTaskTitle = useCallback((taskId: string, newValue: string) => {
-    //     props.changeTaskTitle(taskId, newValue, props.id);
-    // }, [props.changeTaskTitle, props.id])
-
     return <div>
         <h3><EditableSpan value={props.title} onChange={changeTodolistTitle}/>
             <IconButton onClick={removeTodolist}>
