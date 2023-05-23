@@ -12,18 +12,18 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { Menu } from '@mui/icons-material';
 import {
-    addTodolistAC,
+    addTodolistAC, addTodoListTC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC,
+    changeTodolistTitleAC, changeTodoListTitleTC,
     FilterValuesType, getTodosTC,
-    removeTodolistAC,
+    removeTodolistAC, removeTodoListTC,
     TodolistDomainType
 } from './state/todolists-reducer'
 import {
     addTaskAC,
     addTasksTC,
     changeTaskStatusAC, changeTaskStatusTC,
-    changeTaskTitleAC,
+    changeTaskTitleAC, changeTaskTitleTC,
     deleteTasksTC,
     removeTaskAC
 } from './state/tasks-reducer';
@@ -61,7 +61,7 @@ function App() {
     }, []);
 
     const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {
-        const action = changeTaskTitleAC(id, newTitle, todolistId);
+        const action = changeTaskTitleTC(todolistId, id, newTitle);
         dispatch(action);
     }, []);
 
@@ -71,17 +71,17 @@ function App() {
     }, []);
 
     const removeTodolist = useCallback(function (id: string) {
-        const action = removeTodolistAC(id);
+        const action = removeTodoListTC(id);
         dispatch(action);
     }, []);
 
     const changeTodolistTitle = useCallback(function (id: string, title: string) {
-        const action = changeTodolistTitleAC(id, title);
+        const action = changeTodoListTitleTC(id, title);
         dispatch(action);
     }, []);
 
     const addTodolist = useCallback((title: string) => {
-        const action = addTodolistAC(title);
+        const action = addTodoListTC(title);
         dispatch(action);
     }, [dispatch]);
 

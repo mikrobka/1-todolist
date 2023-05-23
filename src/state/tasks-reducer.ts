@@ -167,28 +167,53 @@ export const addTasksTC = (todolistId: string, title: string) => (dispatch: Disp
         })
 }
 
-export const changeTaskStatusTC = (todolistId:string,taskId:string,status:number) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+export const changeTaskStatusTC = (todolistId: string, taskId: string, status: number) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
 
     const task = getState().tasks[todolistId].find(t => t.id === taskId)
 
-    if(task){
-        const model:UpdateTaskModelType = {
+    if (task) {
+        const model: UpdateTaskModelType = {
             title: task.title,
-            deadline:task.deadline,
-            startDate:task.startDate,
-            priority:task.priority,
-            description:task.description,
+            deadline: task.deadline,
+            startDate: task.startDate,
+            priority: task.priority,
+            description: task.description,
             status
 
         }
-        todolistsAPI.updateTask(todolistId,taskId,model)
+        todolistsAPI.updateTask(todolistId, taskId, model)
             .then(res => {
                 if (res.data.resultCode === 0) {
-                    dispatch(changeTaskStatusAC(taskId,model.status,todolistId))
+                    dispatch(changeTaskStatusAC(taskId, model.status, todolistId))
                 }
             })
     }
 
+}
+
+export const changeTaskTitleTC = (todolistId: string, taskId: string, title: string) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+
+    const task = getState().tasks[todolistId].find(t => t.id === taskId)
+
+    if (task) {
+        const model: UpdateTaskModelType = {
+            title,
+            deadline: task.deadline,
+            startDate: task.startDate,
+            priority: task.priority,
+            description: task.description,
+            status:task.status
+
+        }
+        todolistsAPI.updateTask(todolistId, taskId, model)
+            .then(res => {
+                if (res.data.resultCode === 0) {
+                    dispatch(changeTaskTitleAC(taskId, model.title, todolistId))
+                }
+            })
+    }
 
 }
+
+
 
