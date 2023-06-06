@@ -36,6 +36,18 @@ export const todolistsAPI = {
     }
 }
 
+
+export const authAPI = {
+    login({email,password,rememberMe,captcha}:LoginRequestType) {
+        return instance.post<ResponseType<{ id:number }>, AxiosResponse<ResponseType<{ id:number }>>, LoginRequestType >(`auth/login`, {
+            captcha,
+            email,
+            password,
+            rememberMe
+            });
+    },
+}
+
 // types
 export type TodolistType = {
     id: string
@@ -90,4 +102,10 @@ type GetTasksResponse = {
     error: string | null
     totalCount: number
     items: TaskType[]
+}
+export type LoginRequestType = {
+    email:string
+    password:string
+    rememberMe?:boolean
+    captcha?:boolean
 }
