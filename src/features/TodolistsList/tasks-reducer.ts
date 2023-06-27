@@ -89,10 +89,12 @@ export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispa
 export const updateTaskTC =
   (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string) =>
   (dispatch: ThunkDispatch, getState: () => AppRootStateType) => {
+    dispatch(appActions.setStatus({ status: "loading" }));
     const state = getState();
     const task = state.tasks[todolistId].find((t) => t.id === taskId);
     if (!task) {
       //throw new Error("task not found in the state");
+      dispatch(appActions.setStatus({ status: "succeeded" }));
       console.warn("task not found in the state");
       return;
     }
@@ -123,6 +125,9 @@ export const updateTaskTC =
       })
       .catch((error) => {
         handleServerNetworkError(error, dispatch);
+      })
+      .finally(() => {
+        dispatch(appActions.setStatus({ status: "succeeded" }));
       });
   };
 

@@ -7,12 +7,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const todoListSlice = createSlice({
   name: "todoList",
-  initialState: {} as TodolistDomainType[],
+  initialState: [] as TodolistDomainType[],
   reducers: {
     removeTodoList: (state, action: PayloadAction<{ id: string }>) => {
       const index = state.findIndex((todo) => todo.id === action.payload.id);
       if (index !== -1) {
-        state.slice(index, 1);
+        state.splice(index, 1);
       }
     },
     addTodoList: (state, action: PayloadAction<{ todolist: TodolistType }>) => {
@@ -37,6 +37,7 @@ const todoListSlice = createSlice({
       }
     },
     setTodoLists: (state, action: PayloadAction<{ todolist: TodolistType[] }>) => {
+      debugger;
       return action.payload.todolist.map((tl) => ({ ...tl, filter: "all", entityStatus: "idle" }));
     },
   },

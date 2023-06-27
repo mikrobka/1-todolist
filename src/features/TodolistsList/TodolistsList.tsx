@@ -3,11 +3,11 @@ import { useSelector } from "react-redux";
 import { AppRootStateType } from "app/store";
 import {
   addTodolistTC,
-  changeTodolistFilterAC,
   changeTodolistTitleTC,
   fetchTodolistsTC,
   FilterValuesType,
   removeTodolistTC,
+  todolistActions,
   TodolistDomainType,
 } from "./todolists-reducer";
 import { addTaskTC, removeTaskTC, TasksStateType, updateTaskTC } from "./tasks-reducer";
@@ -26,7 +26,6 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
   const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>((state) => state.todolists);
   const tasks = useSelector<AppRootStateType, TasksStateType>((state) => state.tasks);
   const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -58,7 +57,7 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
   }, []);
 
   const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
-    const action = changeTodolistFilterAC(todolistId, value);
+    const action = todolistActions.changeTodoListFilter({ id: todolistId, filter: value });
     dispatch(action);
   }, []);
 
