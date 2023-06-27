@@ -1,11 +1,9 @@
 import { todolistsAPI, TodolistType } from "api/todolists-api";
 import { Dispatch } from "redux";
-import { appActions, RequestStatusType, SetAppErrorType, SetAppStatusType } from "app/app-reducer";
+import { appActions, RequestStatusType } from "app/app-reducer";
 import { handleServerNetworkError } from "utils/error-utils";
 import { AppThunk } from "app/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-const initialState: Array<TodolistDomainType> = [];
 
 const todoListSlice = createSlice({
   name: "todoList",
@@ -38,8 +36,8 @@ const todoListSlice = createSlice({
         state[index].entityStatus = action.payload.entityStatus;
       }
     },
-    setTodoLists: (state, action: PayloadAction<{ todo: TodolistType[] }>) => {
-      return state.map((tl) => ({ ...tl, filter: "all", entityStatus: "idle" }));
+    setTodoLists: (state, action: PayloadAction<{ todolist: TodolistType[] }>) => {
+      return action.payload.todolist.map((tl) => ({ ...tl, filter: "all", entityStatus: "idle" }));
     },
   },
 });
@@ -51,7 +49,7 @@ export const fetchTodolistsTC = (): AppThunk => {
     todolistsAPI
       .getTodolists()
       .then((res) => {
-        dispatch(todolistActions.setTodoLists({ todo: res.data }));
+        dispatch(todolistActions.setTodoLists({ todolist: res.data }));
         dispatch(appActions.setStatus({ status: "succeeded" }));
       })
       .catch((error) => {
