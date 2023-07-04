@@ -1,4 +1,10 @@
-import { FilterValuesType, todolistActions, TodolistDomainType, todolistReducer } from "./todolists-reducer";
+import {
+  FilterValuesType,
+  todolistActions,
+  TodolistDomainType,
+  todolistReducer,
+  todolistThunks,
+} from "./todolists-reducer";
 import { v1 } from "uuid";
 import { RequestStatusType } from "app/app-reducer";
 import { TodolistType } from "features/TodolistsList/todolists.api";
@@ -41,7 +47,11 @@ test("correct todolist should be added", () => {
 test("correct todolist should change its name", () => {
   let newTodolistTitle = "New Todolist";
 
-  const action = todolistActions.changeTodoListTitle({ id: todolistId2, title: newTodolistTitle });
+  const action = todolistThunks.changeTodolistTitle.fulfilled(
+    { id: todolistId2, title: newTodolistTitle },
+    "requestId",
+    { todolistId: "todolistId1", newTitle: "What to learn" }
+  );
 
   const endState = todolistReducer(startState, action);
 
