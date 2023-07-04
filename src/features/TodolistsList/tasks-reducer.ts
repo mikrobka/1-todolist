@@ -1,19 +1,10 @@
 import { todolistActions } from "./todolists-reducer";
-import {
-  ResultCode,
-  TaskPriorities,
-  TaskStatuses,
-  TaskType,
-  todolistsAPI,
-  UpdateTaskArgType,
-  UpdateTaskModelType,
-} from "api/todolists-api";
-import { Dispatch } from "redux";
-import { AppRootStateType } from "app/store";
-import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
+
 import { appActions } from "app/app-reducer";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createAppAsyncThunk } from "utils/create-app-async-thunk";
+import { createSlice } from "@reduxjs/toolkit";
+import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from "common/utils";
+import { TaskType, todolistsAPI, UpdateTaskArgType, UpdateTaskModelType } from "features/TodolistsList/todolists.api";
+import { ResultCode, TaskPriorities, TaskStatuses } from "common/enum";
 
 const taskSlice = createSlice({
   name: "tasks",
@@ -106,7 +97,7 @@ export const removeTask = createAppAsyncThunk<
     const { todolistId, taskId } = arg;
     try {
       const res = await todolistsAPI.deleteTask(todolistId, taskId);
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.success) {
         return { todolistId: todolistId, taskId: taskId };
       } else {
         handleServerAppError(res.data, dispatch);
