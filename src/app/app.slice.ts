@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { authActions } from "features/auth/auth.reducer";
+import { authActions } from "features/auth/auth.slice";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { authAPI } from "features/auth/auth.api";
 
@@ -28,7 +28,7 @@ const slice = createSlice({
   },
 });
 
-export const appReducer = slice.reducer;
+export const appSlice = slice.reducer;
 export const appActions = slice.actions;
 
 export const initializeAppTC = () => (dispatch: Dispatch) => {

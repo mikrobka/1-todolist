@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { appActions } from "app/app.reducer";
-import { todolistsThunks } from "features/TodolistsList/todolists.reducer";
+import { appActions } from "app/app.slice";
+import { todolistsThunks } from "features/TodolistsList/todolists.slice";
 import {
   AddTaskArgType,
   RemoveTaskArgType,
@@ -152,7 +152,7 @@ const slice = createSlice({
   },
 });
 
-export const tasksReducer = slice.reducer;
+export const tasksSlice = slice.reducer;
 export const tasksActions = slice.actions;
 export const tasksThunks = { fetchTasks, addTask, updateTask, removeTask };
 
