@@ -36,16 +36,19 @@ const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParamsType>("aut
       dispatch(appActions.setAppStatus({ status: "succeeded" }));
       return { isLoggedIn: true };
     } else {
-      handleServerAppError(res.data, dispatch);
-      return rejectWithValue(null);
+      const isAppShowError = !res.data.fieldsErrors.length;
+
+      handleServerAppError(res.data, dispatch, isAppShowError);
+      return rejectWithValue(res.data);
     }
   } catch (e) {
+    debugger;
     handleServerNetworkError(e, dispatch);
     return rejectWithValue(null);
   }
 });
 
-const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, void>("auth/login", async (arg, thunkAPI) => {
+const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, void>("auth/logout", async (arg, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
   try {
     dispatch(appActions.setAppStatus({ status: "loading" }));
