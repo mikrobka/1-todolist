@@ -29,6 +29,7 @@ const slice = createSlice({
 
 const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParamsType>("auth/login", async (data, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
+
   try {
     dispatch(appActions.setAppStatus({ status: "loading" }));
     const res = await authAPI.login(data);
