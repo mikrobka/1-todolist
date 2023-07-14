@@ -1,5 +1,5 @@
 import React from "react";
-import { FormikHelpers, useFormik } from "formik";
+import {  FormikHelpers, useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField } from "@mui/material";
@@ -10,24 +10,16 @@ import { LoginParamsType } from "./auth.api";
 import { ResponseType } from "common/types";
 import s from './login.module.css'
 
+
 export const Login = () => {
   const dispatch = useAppDispatch();
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
+  
+
+
   const formik = useFormik({
-    validate: (values) => {
-      // if (!values.email) {
-      //   return {
-      //     email: "Email is required",
-      //   };
-      // }
-      // if (!values.password) {
-      //   return {
-      //     password: "Password is required",
-      //   };
-      // }
-    },
     initialValues: {
       email: "",
       password: "",
@@ -37,12 +29,13 @@ export const Login = () => {
       dispatch(authThunks.login(values))
         .unwrap()
         .catch((res: ResponseType) => {
-          res.fieldsErrors?.forEach(fieldError => {
+          res.fieldsErrors.forEach(fieldError => {
               formikHelpers.setFieldError(fieldError.field,fieldError.error)
             })
         })
     },
   });
+
 
   if (isLoggedIn) {
     return <Navigate to={"/"} />;
@@ -65,7 +58,7 @@ export const Login = () => {
               <p>Password: free</p>
             </FormLabel>
             <FormGroup>
-              <TextField label="Email" margin="normal" {...formik.getFieldProps("email")} />
+              <TextField  label="Email" margin="normal" {...formik.getFieldProps("email")} />
               {formik.errors.email ? <div className={s.fieldError}>{formik.errors.email}</div> : null}
               <TextField type="password" label="Password" margin="normal" {...formik.getFieldProps("password")} />
               {formik.errors.password ? <div className={s.fieldError}>{formik.errors.password}</div> : null}
