@@ -1,2 +1,2 @@
 export { useAppDispatch } from "./useAppDispatch";
-export * from "./useActions";
+export { useActions } from "./useActions";

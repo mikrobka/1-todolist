@@ -12,29 +12,27 @@ import {
   Typography,
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import { Login } from "features/auth/Login";
+import { Login } from "features/auth/Login/Login";
 import "./App.css";
 import { TodolistsList } from "features/TodolistsList/TodolistsList";
 import { ErrorSnackbar } from "common/components";
 import { useActions } from "common/hooks";
 import { selectIsLoggedIn } from "features/auth/auth.selectors";
 import { selectAppStatus, selectIsInitialized } from "app/app.selectors";
-import { authThunks } from "features/auth/auth.slice";
+import { authThunks } from "features/auth/auth.reducer";
 
 function App() {
   const status = useSelector(selectAppStatus);
   const isInitialized = useSelector(selectIsInitialized);
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  const { logout , initializeApp} = useActions(authThunks);
+  const { initializeApp, logout } = useActions(authThunks);
 
   useEffect(() => {
-    initializeApp()
+    initializeApp();
   }, []);
 
-  const logoutHandler = useCallback(() => {
-    logout()
-  }, []);
+  const logoutHandler = () => logout();
 
   if (!isInitialized) {
     return (

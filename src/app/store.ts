@@ -1,16 +1,16 @@
-import { tasksSlice } from "features/TodolistsList/tasks.slice";
-import { todolistsSlice } from "features/TodolistsList/todolists.slice";
+import { tasksReducer } from "features/TodolistsList/tasks.reducer";
+import { todolistsReducer } from "features/TodolistsList/todolists.reducer";
 import { AnyAction, combineReducers } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
-import { appSlice } from "app/app.slice";
-import { authSlice } from "features/auth/auth.slice";
+import { appReducer } from "app/app.reducer";
+import { authReducer } from "features/auth/auth.reducer";
 import { configureStore } from "@reduxjs/toolkit";
 
 const rootReducer = combineReducers({
-  tasks: tasksSlice,
-  todolists: todolistsSlice,
-  app: appSlice,
-  auth: authSlice,
+  tasks: tasksReducer,
+  todolists: todolistsReducer,
+  app: appReducer,
+  auth: authReducer,
 });
 
 export const store = configureStore({
@@ -18,8 +18,6 @@ export const store = configureStore({
 });
 
 export type AppRootStateType = ReturnType<typeof rootReducer>;
-
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AnyAction>;
 
 export type AppDispatch = ThunkDispatch<AppRootStateType, unknown, AnyAction>;
 
