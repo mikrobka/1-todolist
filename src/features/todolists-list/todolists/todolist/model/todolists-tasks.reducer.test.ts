@@ -1,11 +1,6 @@
-import {
-  TodolistDomainType,
-  todolistsActions,
-  todolistsReducer,
-  todolistsThunks,
-} from "features/TodolistsList/todolists.reducer";
-import { tasksReducer, TasksStateType } from "features/TodolistsList/tasks.reducer";
-import { TodolistType } from "features/TodolistsList/todolists.api";
+import { TasksStateType, tasksReducer } from "features/todolists-list/tasks/model";
+import { TodolistDomainType, TodolistType } from "../api";
+import { todolistsReducer, todolistsThunks } from "./todolists.reducer";
 
 test("ids should be equals", () => {
   const startTasksState: TasksStateType = {};

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
@@ -12,14 +12,13 @@ import {
   Typography,
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
-import { Login } from "features/auth/Login/Login";
+import { Login } from "features/auth/login/login";
 import "./App.css";
-import { TodolistsList } from "features/TodolistsList/TodolistsList";
 import { ErrorSnackbar } from "common/components";
 import { useActions } from "common/hooks";
-import { selectIsLoggedIn } from "features/auth/auth.selectors";
-import { selectAppStatus, selectIsInitialized } from "app/app.selectors";
-import { authThunks } from "features/auth/auth.reducer";
+import { selectAppStatus, selectIsInitialized } from "./model";
+import { authThunks, selectIsLoggedIn } from "features/auth/login/model";
+import { TodolistsList } from "features/todolists-list/TodolistsList";
 
 function App() {
   const status = useSelector(selectAppStatus);
@@ -29,10 +28,10 @@ function App() {
   const { initializeApp, logout } = useActions(authThunks);
 
   useEffect(() => {
-    initializeApp();
+    initializeApp(null);
   }, []);
 
-  const logoutHandler = () => logout();
+  const logoutHandler = () => logout(null);
 
   if (!isInitialized) {
     return (

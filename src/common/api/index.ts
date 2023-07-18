@@ -1,1 +1,1 @@
-export { instance } from "./common.api";
+export * from "./common.api";

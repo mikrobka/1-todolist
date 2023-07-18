@@ -3,18 +3,14 @@ import { FormikHelpers, useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField } from "@mui/material";
-import { selectIsLoggedIn } from "features/auth/auth.selectors";
-import { authThunks } from "features/auth/auth.reducer";
-import { LoginParamsType } from "features/auth/auth.api";
+import { authThunks } from "features/auth/login/model/auth.slice";
 import { ResponseType } from "common/types";
-import s from "./styles.module.css";
+import s from "./login.module.css";
 import { useActions } from "common/hooks";
+import { LoginParamsType } from "./api/auth.type";
+import { selectIsLoggedIn } from "./model";
 
-type FormikErrorType = {
-  email?: string;
-  password?: string;
-  rememberMe?: boolean;
-};
+
 
 export const Login = () => {
   const {login} = useActions(authThunks);
@@ -23,7 +19,7 @@ export const Login = () => {
 
   const formik = useFormik({
     validate: (values) => {
-      const errors: FormikErrorType = {};
+      const errors: Partial<Omit<LoginParamsType, 'captcha'>> = {};
       if (!values.email) {
         errors.email = "Email is required";
       } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
