@@ -1,72 +1,34 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import {
-  AppBar,
-  Button,
-  CircularProgress,
-  Container,
-  IconButton,
-  LinearProgress,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import { Menu } from "@mui/icons-material";
-import { Login } from "features/auth/login/login";
+import { Container } from "@mui/material";
 import "./App.css";
 import { ErrorSnackbar } from "common/components";
 import { useActions } from "common/hooks";
-import { selectAppStatus, selectIsInitialized } from "./model";
-import { authThunks, selectIsLoggedIn } from "features/auth/login/model";
-import { TodolistsList } from "features/todolists-list/TodolistsList";
+import { selectIsInitialized } from "./model";
+import { authThunks } from "features/auth/login/model";
+import { Router } from "components/router/router";
+import { Header } from "components/header/header";
+import { Loading } from "components/loading/loadingin-indicator";
 
 function App() {
-  const status = useSelector(selectAppStatus);
   const isInitialized = useSelector(selectIsInitialized);
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-
-  const { initializeApp, logout } = useActions(authThunks);
+  const { initializeApp } = useActions(authThunks);
 
   useEffect(() => {
     initializeApp(null);
-  }, []);
-
-  const logoutHandler = () => logout(null);
+  }, [initializeApp, isInitialized]);
 
   if (!isInitialized) {
-    return (
-      <div style={{ position: "fixed", top: "30%", textAlign: "center", width: "100%" }}>
-        <CircularProgress />
-      </div>
-    );
+    return <Loading />;
   }
-
   return (
-    <BrowserRouter>
-      <div className="App">
-        <ErrorSnackbar />
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton edge="start" color="inherit" aria-label="menu">
-              <Menu />
-            </IconButton>
-            <Typography variant="h6">News</Typography>
-            {isLoggedIn && (
-              <Button color="inherit" onClick={logoutHandler}>
-                Log out
-              </Button>
-            )}
-          </Toolbar>
-          {status === "loading" && <LinearProgress />}
-        </AppBar>
-        <Container fixed>
-          <Routes>
-            <Route path={"/"} element={<TodolistsList />} />
-            <Route path={"/login"} element={<Login />} />
-          </Routes>
-        </Container>
-      </div>
-    </BrowserRouter>
+    <div className="App">
+      <ErrorSnackbar />
+      <Header />
+      <Container fixed>
+        <Router />
+      </Container>
+    </div>
   );
 }
 
