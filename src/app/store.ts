@@ -3,12 +3,12 @@ import { ThunkDispatch } from "redux-thunk";
 import { appReducer } from "app/model/app.slice";
 import { authReducer } from "features/auth/login/model/auth.slice";
 import { configureStore } from "@reduxjs/toolkit";
-import { tasksReducer } from "features/todolists-list/tasks/model";
-import { todolistsReducer } from "features/todolists-list/todolists/todolist/model";
+import { tasksSlice } from "features/todolists-list/tasks/model";
+import { todolistsSlice } from "features/todolists-list/todolists/todolist/model";
 
 const rootReducer = combineReducers({
-  tasks: tasksReducer,
-  todolists: todolistsReducer,
+  tasks: tasksSlice,
+  todolists: todolistsSlice,
   app: appReducer,
   auth: authReducer,
 });
