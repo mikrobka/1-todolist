@@ -44,7 +44,6 @@ const slice = createSlice({
         },
         (state, action) => {
           state.status = "failed";
-          debugger;
           const { error, payload } = action;
           if (payload) {
             if (payload.showGlobalError) {

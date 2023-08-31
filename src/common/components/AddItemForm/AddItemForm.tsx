@@ -9,8 +9,8 @@ type PropsType = {
 };
 
 export const AddItemForm = React.memo(function ({ addItem, disabled = false }: PropsType) {
-  let [title, setTitle] = useState("");
-  let [error, setError] = useState<string | null>(null);
+  const [title, setTitle] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   const addItemHandler = () => {
     if (title.trim() !== "") {
@@ -38,7 +38,7 @@ export const AddItemForm = React.memo(function ({ addItem, disabled = false }: P
     if (error !== null) {
       setError(null);
     }
-    if (e.charCode === 13) {
+    if (e.key === "Enter") {
       addItemHandler();
     }
   };
@@ -51,7 +51,7 @@ export const AddItemForm = React.memo(function ({ addItem, disabled = false }: P
         error={!!error}
         value={title}
         onChange={onChangeHandler}
-        onKeyPress={onKeyPressHandler}
+        onKeyDown={onKeyPressHandler}
         label="Title"
         helperText={error}
       />
